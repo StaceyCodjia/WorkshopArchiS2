@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>S.A.C</title>
+    </head>
+    
+    <body>
+        <h1>Ajouter une compétence à {{ etudiant.nom }} {{ etudiant.prenom }}</h1>
+        <form action="/add_competence/{{ etudiant.id }}" method="POST">
+            <div>
+                <label for="competence">Compétence:</label>
+                <select id="competence" name="competence" required>
+                    <option value="" disabled selected>Choisir une compétence</option>
+                    {% for competence in competences %}
+                        <option value="{{ competence.id }}">{{ competence.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <input type="submit" value = "ajouter">
+            </div>
+
+        </form>
+    </body>
+</html>

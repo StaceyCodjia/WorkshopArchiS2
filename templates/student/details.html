@@ -11,7 +11,13 @@
             <p><strong>Prénom:</strong> {{ etudiant.prenom }}</p>
             <p><strong>Numéro Étudiant:</strong> {{ etudiant.num_etud }}</p>
             <div>
-               <!-- TODO: competences -->
+                <a href="{{ url_for('competences_list', id=etudiant.id) }}">Ajouter une compétence</a>
+                <h3>Compétences:</h3>
+                <ul>
+                    {% for competence in competences %}
+                    <li>{{competence.nom}} <a href="{{ url_for('delete_competence', etudiant_id=etudiant.id, competence_id=competence.id) }}">Supprimer</a></li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
         <div>
