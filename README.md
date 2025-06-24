@@ -12,7 +12,7 @@ Les notions clés de ce projet sont les concepts de serveur web, pages dynamique
 ## Organisation de l’équipe : 
 
 Dans un premier temps, nous avons créé le git pour pouvoir gérer le projet.
-De plus, le MCD étant nécessaire pour la suite nous l’avons réalisé ensemble pour être sur d’avoir la même base pour notre projet. Suite à cela, nous avons créé cette base de données via python. On gère ensuite la gestion de base des éléments et réaliser des associations.
+De plus, le MCD étant nécessaire pour la suite nous l’avons réalisé ensemble pour être sur d’avoir la même base pour notre projet. Suite à cela, nous avons créé cette base de données sur le mysqul commun via python. On gère ensuite la gestion de base des éléments (liste, ajout, suppression, modification) et réaliser des associations.
 
 
 ## MCD : 
