@@ -1,4 +1,26 @@
+#from flask import Flask, request, render_template, jsonify, abort, url_for, redirect
+
+#app = Flask(__name__)
+
 import mysql.connector
+
+#etudiants = []
+
+# @app.route("/")
+# def formulaire():
+#     return render_template('Accueil.html')
+
+# @app.route("/reponse", methods=["post"])
+# def traitement():
+#     nomEtud = request.form["nom"]
+#     prenomEtud = request.form["prenom"]
+#     NumEtud = request.form["num-etud"]
+
+#     etudiants.append({
+#         "nom": nomEtud,
+#         "prenom": prenomEtud,
+#         "num-etud": NumEtud
+#     })
 
 # POur se connecter
 mydb = mysql.connector.connect(
