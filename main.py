@@ -1,22 +1,27 @@
-#from flask import Flask, request, render_template, jsonify, abort, url_for, redirect
+from flask import Flask, request, render_template, jsonify, abort, url_for, redirect
 
-#app = Flask(__name__)
+app = Flask(__name__)
 
-#etudiants = []
+etudiants = []
 
-# @app.route("/")
-# def formulaire():
-#     return render_template('Accueil.html')
+@app.route("/")
+def index():
+    return render_template('index.html', etudiants=etudiants)
 
-# @app.route("/reponse", methods=["post"])
-# def traitement():
-#     nomEtud = request.form["nom"]
-#     prenomEtud = request.form["prenom"]
-#     NumEtud = request.form["num-etud"]
+@app.route("/add")
+def add():
+    return render_template('add.html')
 
-#     etudiants.append({
-#         "nom": nomEtud,
-#         "prenom": prenomEtud,
-#         "num-etud": NumEtud
-#     })
+@app.route("/reponse", methods=["POST"])
+def traitement():
+    nomEtud = request.form["nom"]
+    prenomEtud = request.form["prenom"]
+    NumEtud = request.form["num-etud"]
 
+    etudiants.append({
+        "nom": nomEtud,
+        "prenom": prenomEtud,
+        "num-etud": NumEtud
+    })
+
+    return redirect(url_for('index'))
