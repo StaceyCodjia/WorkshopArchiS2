@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>S.A.C</title>
+    </head>
+
     <body>
         <h1>Liste d'étudiants</h1>
-        <ul>
-            {% for etudiant in etudiants %}
-                <li>{{ etudiant.nom }} {{ etudiant.prenom }}</li>
-            {% endfor %}
-        </ul>
-        <a href="{{url_for('add')}}">Ajouter un étudiant</a>
+        <a href="{{url_for('new')}}">Ajouter un étudiant</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for etudiant in etudiants %}
+                    <tr>
+                        <td>{{ etudiant.nom }}</td>
+                        <td>{{ etudiant.prenom }}</td>
+                        <td>
+                            <a href="{{ url_for('edit', id=etudiant.id) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </body>
 </html>
