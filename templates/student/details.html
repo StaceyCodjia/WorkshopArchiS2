@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>S.A.C</title>
+    </head>
+    <body>
+        <h1>Détails de l'Étudiant</h1>
+        <div>
+            <p><strong>Nom:</strong> {{ etudiant.nom }}</p>
+            <p><strong>Prénom:</strong> {{ etudiant.prenom }}</p>
+            <p><strong>Numéro Étudiant:</strong> {{ etudiant.num_etud }}</p>
+            <div>
+               <!-- TODO: competences -->
+            </div>
+        </div>
+        <div>
+            <a href="{{ url_for('edit', id=etudiant.id) }}">Modifier</a>
+            <a href="{{ url_for('delete', id=etudiant.id) }}">Supprimer</a>
+            <a href="{{ url_for('index') }}">Retour à la liste</a>
+        </div>
+    </body>
+</html>

@@ -22,7 +22,9 @@
                         <td>{{ etudiant.nom }}</td>
                         <td>{{ etudiant.prenom }}</td>
                         <td>
+                            <a href="{{ url_for('details', id=etudiant.id) }}">Détails</a>
                             <a href="{{ url_for('edit', id=etudiant.id) }}">Modifier</a>
+                            <a href="{{ url_for('delete', id=etudiant.id) }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}

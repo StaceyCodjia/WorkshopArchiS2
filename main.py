@@ -4,6 +4,22 @@ app = Flask(__name__)
 
 etudiants = []
 
+competences = [
+    {"id": 1, "nom": "Python"},
+    {"id": 2, "nom": "JavaScript"},
+    {"id": 3, "nom": "HTML/CSS"},
+    {"id": 4, "nom": "SQL"},
+    {"id": 5, "nom": "Machine Learning"}
+]
+
+etudiants_competences = [
+    {"etudiant_id": 1, "competence_id": 1},
+    {"etudiant_id": 1, "competence_id": 2},
+    {"etudiant_id": 2, "competence_id": 3},
+    {"etudiant_id": 3, "competence_id": 4},
+    {"etudiant_id": 4, "competence_id": 5}
+]
+
 @app.route("/")
 def index():
     return render_template('index.html', etudiants=etudiants)
@@ -27,6 +43,20 @@ def traitement():
 
     return redirect(url_for('index'))
 
+@app.route("/details/<int:id>")
+def details(id):
+    if id < 1 or id > len(etudiants):
+        abort(404)
+    
+    etudiant = etudiants[id - 1]
+    comp_etud = []
+    for comp in etudiants_competences:
+        if(comp['etudiant_id'] == id):
+            comp_etud.append(comp['competence_id'])
+
+    competences_etudiant = [c for c in competences if c['id'] in comp_etud]
+    return render_template('/student/details.html', etudiant=etudiant, competences=competences_etudiant)
+
 @app.route("/edit/<int:id>")
 def edit(id):
     etudiant = etudiants[id - 1]
@@ -44,5 +74,18 @@ def update(id):
         "prenom": prenomEtud,
         "num_etud": NumEtud
     }
+
+    return redirect(url_for('index'))
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    if id < 1 or id > len(etudiants):
+        abort(404)
+    
+    etudiants.pop(id - 1)
+    
+    # Reindex the list
+    for i in range(id - 1, len(etudiants)):
+        etudiants[i]['id'] = i + 1
 
     return redirect(url_for('index'))
