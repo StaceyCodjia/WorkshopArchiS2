@@ -11,7 +11,7 @@ mycursor = mydb.cursor()
 
 # Table Etudiant
 mycursor.execute("""
-CREATE TABLE Etudiant (
+CREATE TABLE IF NOT EXISTS Etudiant (
     Id INT PRIMARY KEY,
     Num_Etudiant INT,
     Nom VARCHAR(50),
@@ -21,7 +21,7 @@ CREATE TABLE Etudiant (
 
 # Table Competence
 mycursor.execute("""
-CREATE TABLE Competence (
+CREATE TABLE IF NOT EXISTS Competence (
     Id INT PRIMARY KEY,
     Nom_Competence VARCHAR(50)
 )
@@ -29,7 +29,7 @@ CREATE TABLE Competence (
 
 # Table Groupe
 mycursor.execute("""
-CREATE TABLE Groupe (
+CREATE TABLE IF NOT EXISTS Groupe (
     Id INT PRIMARY KEY,
     Nbr_Personnes INT
 )
@@ -37,7 +37,7 @@ CREATE TABLE Groupe (
 
 # Table Projet
 mycursor.execute("""
-CREATE TABLE Projet (
+CREATE TABLE IF NOT EXISTS Projet (
     Id INT PRIMARY KEY,
     Nom_Projet VARCHAR(50),
     Description VARCHAR(255)
@@ -45,7 +45,7 @@ CREATE TABLE Projet (
 """)
 # Possede (Etudiant <-> Competence)
 mycursor.execute("""
-CREATE TABLE Possede (
+CREATE TABLE IF NOT EXISTS Possede (
     Etudiant_Id INT,
     Competence_Id INT,
     PRIMARY KEY (Etudiant_Id, Competence_Id),
@@ -56,7 +56,7 @@ CREATE TABLE Possede (
 
 # Appartient (Etudiant <-> Groupe)
 mycursor.execute("""
-CREATE TABLE Appartient (
+CREATE TABLE IF NOT EXISTS Appartient (
     Etudiant_Id INT,
     Groupe_Id INT,
     PRIMARY KEY (Etudiant_Id, Groupe_Id),
@@ -67,7 +67,7 @@ CREATE TABLE Appartient (
 
 # Associe_a (Groupe <-> Projet)
 mycursor.execute("""
-CREATE TABLE Associe_a (
+CREATE TABLE IF NOT EXISTS Associe_a (
     Groupe_Id INT,
     Projet_Id INT,
     PRIMARY KEY (Groupe_Id, Projet_Id),
