@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>S.A.C</title>
-    </head>
-    
-    <body>
-        <h1>Ajouter un étudiant</h1>
-        <form action="/update/{{ etudiant.id }}" method="POST">
-            <div>
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" value="{{ etudiant.nom }}" required>
-            </div>
 
-            <div>
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" name="prenom" value="{{ etudiant.prenom }}" required>
-            </div>
+<head>
+    <meta charset="UTF-8" />
+    <title>S.A.C</title>
+</head>
 
-            <div>
-                <label for="num-etud">Numéro étudiant:</label>
-                <input type="number" id="num_etud" name="num_etud" value="{{ etudiant.num_etud }}" required></input>
-            </div>
+<body>
+    <h1>Ajouter un étudiant</h1>
+    <form action="/update/{{ etudiant.id }}" method="POST">
+        <div>
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" value="{{ etudiant.nom }}" required>
+        </div>
 
-            <div>
-                <input type="submit" value = "Enregistrer">
-            </div>
+        <div>
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" value="{{ etudiant.prenom }}" required>
+        </div>
 
-        </form>
-    </body>
+        <div>
+            <label for="num-etud">Numéro étudiant:</label>
+            <input type="number" id="num_etud" name="num_etud" value="{{ etudiant.num_etud }}" required></input>
+        </div>
+
+       <div>
+            <label for="competence">Compétence :</label>
+            <select id="competence" name="competences" multiple required>
+                <option value="" disabled>Choisir une compétence</option>
+                {% for competence in competences %}
+                    <option value="{{ competence.id }}"
+                        {% if competence.id in competence_ids_etudiant %}selected{% endif %}>
+                        {{ competence.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div>
+            <input type="submit" value="Enregistrer">
+        </div>
+
+    </form>
+</body>
+
 </html>

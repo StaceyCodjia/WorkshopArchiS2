@@ -12,13 +12,7 @@ competences = [
     {"id": 5, "nom": "Machine Learning"}
 ]
 
-etudiants_competences = [
-    {"etudiant_id": 1, "competence_id": 1},
-    {"etudiant_id": 1, "competence_id": 2},
-    {"etudiant_id": 2, "competence_id": 3},
-    {"etudiant_id": 3, "competence_id": 4},
-    {"etudiant_id": 4, "competence_id": 5}
-]
+etudiants_competences = []
 
 @app.route("/")
 def index():
@@ -26,13 +20,14 @@ def index():
 
 @app.route("/new")
 def new():
-    return render_template('/student/new.html')
+    return render_template('/student/new.html', competences=competences)
 
 @app.route("/reponse", methods=["POST"])
 def traitement():
     nomEtud = request.form["nom"]
     prenomEtud = request.form["prenom"]
     NumEtud = request.form["num_etud"]
+    competences_list = request.form.getlist("competences")
 
     etudiants.append({
         "id": len(etudiants) + 1,
@@ -40,6 +35,14 @@ def traitement():
         "prenom": prenomEtud,
         "num_etud": NumEtud
     })
+
+    for competence_id in competences_list:
+        competence_id = int(competence_id)
+        
+        etudiants_competences.append({
+            "etudiant_id": len(etudiants),
+            "competence_id": competence_id
+        })
 
     return redirect(url_for('index'))
 
@@ -60,13 +63,18 @@ def details(id):
 @app.route("/edit/<int:id>")
 def edit(id):
     etudiant = etudiants[id - 1]
-    return render_template('/student/edit.html', etudiant=etudiant)
+    competence_ids_etudiant = [
+        ec["competence_id"] for ec in etudiants_competences if ec["etudiant_id"] == etudiant["id"]
+    ]
+
+    return render_template('/student/edit.html', etudiant=etudiant, competences=competences, competence_ids_etudiant=competence_ids_etudiant)
 
 @app.route("/update/<int:id>", methods=["POST"])
 def update(id):
     nomEtud = request.form["nom"]
     prenomEtud = request.form["prenom"]
     NumEtud = request.form["num_etud"]
+    competences_list = request.form.getlist("competences")
 
     etudiants[id - 1] = {
         "id": id,
@@ -74,6 +82,16 @@ def update(id):
         "prenom": prenomEtud,
         "num_etud": NumEtud
     }
+
+    global etudiants_competences
+    etudiants_competences = [ec for ec in etudiants_competences if ec["etudiant_id"] != id]
+    for competence_id in competences_list:
+        competence_id = int(competence_id)
+        
+        etudiants_competences.append({
+            "etudiant_id": len(etudiants),
+            "competence_id": competence_id
+        })
 
     return redirect(url_for('index'))
 
@@ -103,12 +121,6 @@ def add_competence(id):
     if id < 1 or id > len(etudiants):
         abort(404)
 
-    competence_id = int(request.form["competence"])
-    global etudiants_competences
-    etudiants_competences.append({
-        "etudiant_id": id,
-        "competence_id": competence_id
-    })
 
     return redirect(url_for('details', id=id))
 

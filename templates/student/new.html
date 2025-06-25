@@ -24,8 +24,19 @@
             </div>
 
             <div>
-                <input type="submit" value = "Ajouter">
+                <label for="competence">Compétence:</label>
+                <select id="competence" name="competences" multiple required>
+                    <option value="" disabled selected>Choisir une compétence</option>
+                    {% for competence in competences %}
+                        <option value="{{ competence.id }}">{{ competence.nom }}</option>
+                    {% endfor %}
+                </select>
             </div>
+
+            <div>
+                <input type="submit" value = "ajouter">
+            </div>
+
 
         </form>
     </body>
