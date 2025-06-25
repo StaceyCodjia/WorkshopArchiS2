@@ -1,6 +1,15 @@
 
 # Workshop Architecture Logicielle 
 
+## Auteurs
+Stacey Codjia, Alice Jacques, Claire Gobert
+
+#### Nom du Groupe / Projet 
+__Backpack__
+
+#### Lien github
+https://github.com/StaceyCodjia/WorkshopArchiS2
+
 ## Description du projet : 
 
 Ce projet consiste à construire un site web dynamique complet à l’aide de la création d’un serveur capable de stocker une liste d’étudiants et d’y associer des compétences. Il sera également possible de créer des groupes de projets affichant les atouts de l’équipe. Pour cela, nous allons utiliser divers outils, langages et concepts.
