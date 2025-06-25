@@ -7,7 +7,7 @@
 
     <body>
         <h1>Liste d'étudiants</h1>
-        <a href="{{url_for('new')}}">Ajouter un étudiant</a>
+        <a href="{{url_for('ajouter_etudiant')}}">Ajouter un étudiant</a>
         <table>
             <thead>
                 <tr>
@@ -19,12 +19,9 @@
             <tbody>
                 {% for etudiant in etudiants %}
                     <tr>
-                        <td>{{ etudiant.nom }}</td>
-                        <td>{{ etudiant.prenom }}</td>
+                        <td>{{ etudiant['Nom'] }}</td>
+                        <td>{{ etudiant['Prenom'] }}</td>
                         <td>
-                            <a href="{{ url_for('details', id=etudiant.id) }}">Détails</a>
-                            <a href="{{ url_for('edit', id=etudiant.id) }}">Modifier</a>
-                            <a href="{{ url_for('delete', id=etudiant.id) }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}
