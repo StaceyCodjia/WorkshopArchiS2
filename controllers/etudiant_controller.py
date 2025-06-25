@@ -56,10 +56,10 @@ def create_etudiant():
     prenom = data.get("prenom")
     competences = data.get("competences", [])
 
-    etudiant = Etudiant.post(num_etudiant, nom, prenom)
+    etudiant_id = Etudiant.post(num_etudiant, nom, prenom)
     for competence_id in competences:
-        EtudiantCompetence.post(etudiant.id, competence_id)
-    return jsonify({"message": "Etudiant created successfully"}), 201
+        EtudiantCompetence.post(etudiant_id, competence_id)
+    return jsonify({"message": "Etudiant created successfully", "id": etudiant_id}), 201
 
 @etudiant_bp.route("/api/etudiant/<int:id>/edit", methods=["PUT"])
 def update_etudiant(id):

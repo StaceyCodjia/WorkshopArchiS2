@@ -41,8 +41,12 @@ class Etudiant:
         cursor.execute(query, (num_etudiant, nom, prenom))
         conn.commit()
 
+        new_id = cursor.lastrowid  # Récupère l'id auto-incrémenté
+
         cursor.close()
         conn.close()
+        
+        return new_id
 
     def put(id, num_etudiant, nom, prenom):
         conn = get_db_connection()
