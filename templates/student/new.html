@@ -7,7 +7,7 @@
     
     <body>
         <h1>Ajouter un étudiant</h1>
-        <form action="/reponse" method="POST">
+        <form id="add-etudiant-form" action="/reponse" method="POST">
             <div>
                 <label for="nom">Nom:</label>
                 <input type="text" id="nom" name="nom" required>
@@ -19,16 +19,15 @@
             </div>
 
             <div>
-                <label for="num-etud">Numéro étudiant:</label>
-                <input type="number" id="num_etud" name="num_etud" required></input>
+                <label for="num_etudiant">Numéro étudiant:</label>
+                <input type="number" id="num_etudiant" name="num_etudiant" required></input>
             </div>
 
             <div>
                 <label for="competence">Compétence:</label>
-                <select id="competence" name="competences" multiple required>
-                    <option value="" disabled selected>Choisir une compétence</option>
+                <select id="competence" name="competences" multiple size="5">
                     {% for competence in competences %}
-                        <option value="{{ competence.id }}">{{ competence.nom }}</option>
+                        <option value="{{ competence.id }}">{{ competence.nom_competence }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -36,8 +35,28 @@
             <div>
                 <input type="submit" value = "ajouter">
             </div>
-
-
         </form>
+
+        <script>
+            document.getElementById("add-etudiant-form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch("/api/etudiant", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        num_etudiant: formData.get("num_etudiant"),
+                        nom: formData.get("nom"),
+                        prenom: formData.get("prenom"),
+                        competences: formData.getAll("competences")
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Étudiant ajouté !");
+                    location.href = "/"; 
+                });
+            });
+        </script>
     </body>
 </html>

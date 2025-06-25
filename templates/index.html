@@ -7,25 +7,68 @@
 
     <body>
         <h1>Liste d'étudiants</h1>
-        <a href="{{url_for('ajouter_etudiant')}}">Ajouter un étudiant</a>
-        <table>
+        <div>
+            <a href="/etudiant/new">Ajouter un étudiant</a>
+        </div> 
+        <table id="etudiants-table">
             <thead>
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
+                    <th>Numéro étudiant</th>
+                    <th>Compétences</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for etudiant in etudiants %}
-                    <tr>
-                        <td>{{ etudiant['Nom'] }}</td>
-                        <td>{{ etudiant['Prenom'] }}</td>
-                        <td>
-                        </td>
-                    </tr>
-                {% endfor %}
+                <!-- Les lignes seront ajoutées par JS -->
             </tbody>
         </table>
+        <script>
+            fetch("/api/etudiants")
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector("#etudiants-table tbody");
+                    data.forEach(etudiant => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${etudiant.nom}</td>
+                            <td>${etudiant.prenom}</td>
+                            <td>${etudiant.num_etudiant}</td>
+                            <td>
+                                <ul>
+                                    ${etudiant.competences.map(comp => `<li>${comp.nom}</li>`).join('')}
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="/etudiant/edit/${etudiant.id}">Modifier</a>
+                                <a href="#" data-method="delete" data-id="${etudiant.id}">Supprimer</a>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+
+                    document.querySelectorAll('a[data-method="delete"]').forEach(link => {
+                        link.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            const etudiantId = this.getAttribute("data-id");
+                            if (confirm("Êtes-vous sûr de vouloir supprimer cet étudiant ?")) {
+                                fetch(`/api/etudiant/${etudiantId}/delete`, {
+                                    method: "DELETE",
+                                    headers: { "Content-Type": "application/json" }
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        alert("Étudiant supprimé !");
+                                        location.reload();
+                                    } else {
+                                        alert("Erreur lors de la suppression de l'étudiant.");
+                                    }
+                                });
+                            }
+                        });
+                    });
+                });
+        </script>
     </body>
 </html>
