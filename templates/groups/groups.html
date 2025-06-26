@@ -18,6 +18,8 @@
                 <tr>
                     <th>Nom</th>
                     <th>Nbr de personnes</th>
+                    <th>Projet</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,8 +35,9 @@
                     data.forEach(group => {
                         const tr = document.createElement("tr");
                         tr.innerHTML = `
-                            <td>${group.nom_group}</td>
+                            <td>${group.nom_groupe}</td>
                             <td>${group.nbr_personnes}</td>
+                            <td>${group.nom_projet}</td>
                             <td>
                                 <a href="/group/edit/${group.id}">Modifier</a>
                                 <a href="#" data-method="delete" data-id="${group.id}">Supprimer</a>

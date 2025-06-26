@@ -9,8 +9,8 @@
         <h1>Ajouter un groupe</h1>
         <form id="add-group-form" action="/reponse" method="POST">
             <div>
-                <label for="nom_group">Nom:</label>
-                <input type="text" id="nom_group" name="nom_group" required>
+                <label for="nom_groupe">Nom:</label>
+                <input type="text" id="nom_groupe" name="nom_groupe" required>
             </div>
             <div>
                 <label for="nbr_personnes">Nombre de personnes:</label>
@@ -18,13 +18,31 @@
             </div>
 
             <div>
+                <label for="projet_id">Projet:</label>
+                <select id="projet_id" name="projet_id" required>
+                    <!-- Les options seront ajoutées par JS -->
+                </select>
+            </div>
+
+            <div>
                 <input type="submit" value = "ajouter">
-            
             </div>
 
         </form>
 
         <script>
+            fetch("/api/projects")
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("projet_id");
+                    data.forEach(projet => {
+                        const option = document.createElement("option");
+                        option.value = projet.id;
+                        option.textContent = projet.nom_projet;
+                        select.appendChild(option);
+                    });
+                });
+
             document.getElementById("add-group-form").addEventListener("submit", function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
@@ -32,8 +50,9 @@
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        nom_group: formData.get("nom_group"),
+                        nom_groupe: formData.get("nom_groupe"),
                         nbr_personnes: formData.get("nbr_personnes"),
+                        projet_id: formData.get("projet_id")
                     })
                 })
                 .then(response => response.json())
