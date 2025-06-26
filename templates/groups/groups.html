@@ -16,9 +16,11 @@
         <table id="groups-table">
             <thead>
                 <tr>
-                    <th>Nom</th>
+                    <th>Nom du groupe</th>
                     <th>Nbr de personnes</th>
                     <th>Projet</th>
+                    <th>Etudiants</th>
+                    <th>Compétences</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -38,6 +40,18 @@
                             <td>${group.nom_groupe}</td>
                             <td>${group.nbr_personnes}</td>
                             <td>${group.nom_projet}</td>
+                            <td>
+                                <ul>
+                                    ${group.etudiants.map(etudiant => `<li>${etudiant.nom} ${etudiant.prenom}</li>`).join('')}
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    ${group.etudiants
+                                        .flatMap(etudiant => etudiant.competences.map(comp => `<li>${comp.nom}</li>`))
+                                        .join('')}
+                                </ul>
+                            </td>
                             <td>
                                 <a href="/group/edit/${group.id}">Modifier</a>
                                 <a href="#" data-method="delete" data-id="${group.id}">Supprimer</a>

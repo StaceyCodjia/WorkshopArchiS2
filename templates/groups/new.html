@@ -25,6 +25,13 @@
             </div>
 
             <div>
+                <label for="etudiants">Etudiants:</label>
+                <select id="etudiants-list" name="etudiants" multiple required>
+                    <!-- Les étudiants seront ajoutés dynamiquement -->
+                </select>
+            </div>
+
+            <div>
                 <input type="submit" value = "ajouter">
             </div>
 
@@ -43,6 +50,31 @@
                     });
                 });
 
+            document.getElementById("nbr_personnes").addEventListener("input", function() {
+                const max = Number(this.value);
+                const select = document.getElementById("etudiants-list");
+                // On ne peut pas vraiment limiter le max sur <select>, donc on le fait en JS :
+                select.onchange = function() {
+                    if (select.selectedOptions.length > max) {
+                        // Désélectionne le dernier sélectionné
+                        select.options[select.selectedIndex].selected = false;
+                        alert("Vous ne pouvez sélectionner que " + max + " étudiant(s).");
+                    }
+                };
+            });
+
+            fetch("/api/etudiants")
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("etudiants-list");
+                    data.forEach(etudiant => {
+                        const option = document.createElement("option");
+                        option.value = etudiant.id;
+                        option.textContent = `${etudiant.nom} ${etudiant.prenom}`;
+                        select.appendChild(option);
+                    });
+                });
+
             document.getElementById("add-group-form").addEventListener("submit", function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
@@ -52,7 +84,8 @@
                     body: JSON.stringify({
                         nom_groupe: formData.get("nom_groupe"),
                         nbr_personnes: formData.get("nbr_personnes"),
-                        projet_id: formData.get("projet_id")
+                        projet_id: formData.get("projet_id"),
+                        etudiants: formData.getAll("etudiants")
                     })
                 })
                 .then(response => response.json())
