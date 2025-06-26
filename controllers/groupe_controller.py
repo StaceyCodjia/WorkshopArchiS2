@@ -55,24 +55,11 @@ def create_etudiant():
     nom = data.get("nom")
     prenom = data.get("prenom")
     competences = data.get("competences", [])
-    new_competences = data.get("new_competences", [])
-
-    if new_competences:
-        for new_competence in new_competences:
-            Competence.post(new_competence)
 
     etudiant_id = Etudiant.post(num_etudiant, nom, prenom)
     for competence_id in competences:
         EtudiantCompetence.post(etudiant_id, competence_id)
-
-    for new_competence in new_competences:
-        competence = Competence.get_by_name(new_competence)
-        if competence:
-            EtudiantCompetence.post(etudiant_id, competence.id)
-            
     return jsonify({"message": "Etudiant created successfully", "id": etudiant_id}), 201
-
-
 
 @etudiant_bp.route("/api/etudiant/<int:id>/edit", methods=["PUT"])
 def update_etudiant(id):
@@ -81,22 +68,11 @@ def update_etudiant(id):
     nom = data.get("nom")
     prenom = data.get("prenom")
     competences = data.get("competences", [])
-    new_competences = data.get("new_competences", [])
-
-    if new_competences:
-        for new_competence in new_competences:
-            Competence.post(new_competence)
 
     Etudiant.put(id, num_etudiant, nom, prenom)
     EtudiantCompetence.delete_all_competences_of_etudiant(id)
     for competence_id in competences:
         EtudiantCompetence.post(id, competence_id)
-
-    for new_competence in new_competences:
-        competence = Competence.get_by_name(new_competence)
-        if competence:
-            EtudiantCompetence.post(id, competence.id)
-            
     return jsonify({"message": "Etudiant updated successfully"})
 
 @etudiant_bp.route("/api/etudiant/<int:id>/delete", methods=["DELETE"])

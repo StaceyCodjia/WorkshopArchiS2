@@ -31,6 +31,20 @@ class Competence:
             return Competence(competence['Id'], competence['Nom_Competence'])
         return None
     
+    def get_by_name(nom_competence):
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM Competence WHERE Nom_Competence = %s", (nom_competence,))
+        competence = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if competence:
+            return Competence(competence['Id'], competence['Nom_Competence'])
+        return None
+    
     def post(nom_competence):
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -62,3 +76,4 @@ class Competence:
 
         cursor.close()
         conn.close()
+

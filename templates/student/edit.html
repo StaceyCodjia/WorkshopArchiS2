@@ -1,67 +1,77 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="UTF-8" />
-        <title>Backpack</title>
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <title>Backpack</title>
+</head>
 
-    <body>
-        <h1>Modifier l'étudiant</h1>
-        <form action="/update/{{ etudiant.id }}" method="POST">
-            <div>
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" value="{{ etudiant.nom }}" required>
-            </div>
+<body>
+    <h1>Modifier l'étudiant</h1>
+    <form action="/update/{{ etudiant.id }}" method="POST">
+        <div>
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" value="{{ etudiant.nom }}" required>
+        </div>
 
-            <div>
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" name="prenom" value="{{ etudiant.prenom }}" required>
-            </div>
+        <div>
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" value="{{ etudiant.prenom }}" required>
+        </div>
 
-            <div>
-                <label for="num_etudiant">Numéro étudiant:</label>
-                <input type="number" id="num_etudiant" name="num_etudiant" value="{{ etudiant.num_etudiant }}" required></input>
-            </div>
+        <div>
+            <label for="num_etudiant">Numéro étudiant:</label>
+            <input type="number" id="num_etudiant" name="num_etudiant" value="{{ etudiant.num_etudiant }}"
+                required></input>
+        </div>
 
-            <div>
-                <label for="competence">Compétence :</label>
-                <select id="competence" name="competences" multiple size="5">
-                    {% for competence in competences %}
-                        <option value="{{ competence.id }}"
-                            {% if competence.id in competence_ids_etudiant %}selected{% endif %}>
-                            {{ competence.nom_competence }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+        <div>
+            <label for="competence">Compétence :</label>
+            <select id="competence" name="competences" multiple size="5">
+                {% for competence in competences %}
+                <option value="{{ competence.id }}" {% if competence.id in competence_ids_etudiant %}selected{% endif
+                    %}>
+                    {{ competence.nom_competence }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="new_competence">Ajouter une/des compétences : </label>
+            <input type="text" id="new_competence" name="new_competence"
+                placeholder="Séparez les compétences par des virgules">
+
+        </div>
 
 
-            <div>
-                <input type="submit" value="Enregistrer">
-            </div>
-        </form>
-    </body>
+        <div>
+            <input type="submit" value="Enregistrer">
+        </div>
+    </form>
+</body>
 
-    <script>
-        document.querySelector("form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            fetch(`/api/etudiant/{{ etudiant.id }}/edit`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    num_etudiant: formData.get("num_etudiant"),
-                    nom: formData.get("nom"),
-                    prenom: formData.get("prenom"),
-                    competences: formData.getAll("competences")
-                })
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(`/api/etudiant/{{ etudiant.id }}/edit`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                num_etudiant: formData.get("num_etudiant"),
+                nom: formData.get("nom"),
+                prenom: formData.get("prenom"),
+                competences: formData.getAll("competences"),
+                new_competence: formData.get("new_competence").split(",").map(comp => comp.trim())
             })
-                .then(response => response.json())
-                .then(data => {
-                    alert("Étudiant mis à jour !");
-                    location.href = "/";
-                });
-        });
-    </script>
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("Étudiant mis à jour !");
+                location.href = "/";
+            });
+    });
+</script>
+
 </html>
