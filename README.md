@@ -26,14 +26,14 @@ De plus, le MCD étant nécessaire pour la suite nous l’avons réalisé ensemb
 
 ## MCD : 
 
-![image](./images/.png)
+![image](./images/mcdV1.png)
 
 
 ## V1 : Topo organisation de l'équipe et répartition du travail 
 
 Nous nous sommes réparties les différentes associations concernant les étudiants, compétences, projets et groupes. 
 
-- Claire : a crée la structure REST globale et l'a appliqué pour la création, modification, suppression, gestion des étudiants et des compétences. A optimisé d'autres parties du code. 
+- Claire : a crée la structure REST globale et l'a appliqué pour la création, modification, suppression, gestion des étudiants et des compétences. A optimisé d'autres parties du code. A également géré les relations entre les tables.
 
 - Alice : a réutilisé le principe de la structure REST pour la création, modification, suppression, gestion des projets (et en partie des compétences).
 
