@@ -38,8 +38,8 @@
         </div>
 
         <div>
-            <label for="new_competence">Ajouter une/des compétences : </label>
-            <input type="text" id="new_competence" name="new_competence"
+            <label for="new_competences">Ajouter une/des compétences : </label>
+            <input type="text" id="new_competences" name="new_competences"
                 placeholder="Séparez les compétences par des virgules">
 
         </div>
@@ -63,7 +63,7 @@
                 nom: formData.get("nom"),
                 prenom: formData.get("prenom"),
                 competences: formData.getAll("competences"),
-                new_competence: formData.get("new_competence").split(",").map(comp => comp.trim())
+                new_competences: formData.get("new_competences").split(",").map(comp => comp.trim())
             })
         })
             .then(response => response.json())
