@@ -39,8 +39,9 @@ def create_group():
     data = request.get_json()
     nom_group = data.get("nom_group")
     nbr_personnes = data.get("nbr_personnes")
+    projet_id = data.get("projet_id")
 
-    group_id = Groupe.post(nom_group, nbr_personnes)
+    group_id = Groupe.post(nom_group, nbr_personnes,projet_id)
     return jsonify({"message": "Group created successfully", "id": group_id}), 201
 
 @group_bp.route("/api/group/<int:id>/edit", methods=["PUT"])
