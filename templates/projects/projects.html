@@ -6,18 +6,18 @@
     </head>
 
     <body>
-        <h1>Liste d'étudiants</h1>
+        <h1>Liste projets</h1>
         <div>
-            <a href="/etudiant/new">Ajouter un étudiant</a>
+            <a href="/project/new">Ajouter un projet</a>
         </div> 
-        <table id="etudiants-table">
+
+        <a href="/">Retour à la liste des étudiants</a>
+
+        <table id="projects-table">
             <thead>
                 <tr>
                     <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Numéro étudiant</th>
-                    <th>Compétences</th>
-                    <th>Actions</th>
+                    <th>Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,27 +25,19 @@
             </tbody>
         </table>
 
-        <a href="/projects">Voir les projets</a>
-
         <script>
-            fetch("/api/etudiants")
+            fetch("/api/projects")
                 .then(response => response.json())
                 .then(data => {
-                    const tbody = document.querySelector("#etudiants-table tbody");
-                    data.forEach(etudiant => {
+                    const tbody = document.querySelector("#projects-table tbody");
+                    data.forEach(project => {
                         const tr = document.createElement("tr");
                         tr.innerHTML = `
-                            <td>${etudiant.nom}</td>
-                            <td>${etudiant.prenom}</td>
-                            <td>${etudiant.num_etudiant}</td>
+                            <td>${project.nom_projet}</td>
+                            <td>${project.description}</td>
                             <td>
-                                <ul>
-                                    ${etudiant.competences.map(comp => `<li>${comp.nom}</li>`).join('')}
-                                </ul>
-                            </td>
-                            <td>
-                                <a href="/etudiant/edit/${etudiant.id}">Modifier</a>
-                                <a href="#" data-method="delete" data-id="${etudiant.id}">Supprimer</a>
+                                <a href="/project/edit/${project.id}">Modifier</a>
+                                <a href="#" data-method="delete" data-id="${project.id}">Supprimer</a>
                             </td>
                         `;
                         tbody.appendChild(tr);
@@ -54,18 +46,18 @@
                     document.querySelectorAll('a[data-method="delete"]').forEach(link => {
                         link.addEventListener("click", function(e) {
                             e.preventDefault();
-                            const etudiantId = this.getAttribute("data-id");
-                            if (confirm("Êtes-vous sûr de vouloir supprimer cet étudiant ?")) {
-                                fetch(`/api/etudiant/${etudiantId}/delete`, {
+                            const projectId = this.getAttribute("data-id");
+                            if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
+                                fetch(`/api/project/${projectId}/delete`, {
                                     method: "DELETE",
                                     headers: { "Content-Type": "application/json" }
                                 })
                                 .then(response => {
                                     if (response.ok) {
-                                        alert("Étudiant supprimé !");
+                                        alert("Projet supprimé !");
                                         location.reload();
                                     } else {
-                                        alert("Erreur lors de la suppression de l'étudiant.");
+                                        alert("Erreur lors de la suppression du projet.");
                                     }
                                 });
                             }

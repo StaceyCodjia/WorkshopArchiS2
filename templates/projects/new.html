@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Backpack</title>
+    </head>
+    
+    <body>
+        <h1>Ajouter un projet</h1>
+        <form id="add-project-form" action="/reponse" method="POST">
+            <div>
+                <label for="nom_projet">Nom:</label>
+                <input type="text" id="nom_projet" name="nom_projet" required>
+            </div>
+
+            <div>
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+
+            <div>
+                <input type="submit" value = "ajouter">
+            
+            </div>
+
+        </form>
+
+        <script>
+            document.getElementById("add-project-form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch("/api/project", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nom_projet: formData.get("nom_projet"),
+                        description: formData.get("description")
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Projet ajouté !");
+                    location.href = "/projects"; 
+                });
+            });
+        </script>
+    </body>
+</html>
